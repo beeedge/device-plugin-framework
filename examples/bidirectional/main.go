@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"strconv"
 
-	"github.com/device-plugin-framework/example/bidirectional/shared"
+	"github.com/device-plugin-framework/examples/bidirectional/shared"
 	"github.com/hashicorp/go-plugin"
 )
 
