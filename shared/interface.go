@@ -5,7 +5,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/device-plugin-framework/examples/bidirectional/proto"
+	"github.com/device-plugin-framework/proto"
 	"github.com/hashicorp/go-plugin"
 )
 

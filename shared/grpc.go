@@ -1,7 +1,7 @@
 package shared
 
 import (
-	"github.com/device-plugin-framework/examples/bidirectional/proto"
+	"github.com/device-plugin-framework/proto"
 	hclog "github.com/hashicorp/go-hclog"
 	plugin "github.com/hashicorp/go-plugin"
 	"golang.org/x/net/context"
