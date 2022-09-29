@@ -1,0 +1,41 @@
+syntax = "proto3";
+package proto;
+option go_package = "grpc/proto";
+
+message GetDeviceReportRequest {
+    string modelId = 1;
+    string featureId = 2;
+}
+
+message GetDeviceIssueRequest {
+    string deviceId = 1;
+    string modelId = 2;
+    string featureId = 3;
+    map<string, string> values = 4;
+}
+
+message GetMQFormatRequest {
+    repeated string messages = 1;
+}
+
+message GetDeviceReportResponse {
+    repeated string messages = 1;
+}
+
+message GetDeviceIssueResponse {
+    repeated string inputMessages = 1;
+    repeated string outputMessages = 2;
+    string issueTopic = 3;
+    string issueResponseTopic = 4;
+}
+
+message GetMQFormatResponse {
+    string routingKey = 1;
+    bytes rabbitMQMsgBody = 2;
+}
+
+service Converter {
+    rpc ConvertReportMessage2Devices(GetDeviceReportRequest) returns (GetDeviceReportResponse);
+    rpc	ConvertIssueMessage2Device(GetDeviceIssueRequest) returns (GetDeviceIssueResponse);
+    rpc	ConvertDeviceMessages2MQFormat(GetMQFormatRequest) returns (GetMQFormatResponse);
+}

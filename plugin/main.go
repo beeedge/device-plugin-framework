@@ -1,65 +1,33 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
-
-	"github.com/device-plugin-framework/shared"
+	"github.com/beeedge/device-plugin-framework/shared"
 	"github.com/hashicorp/go-plugin"
 )
 
-// Here is a real implementation of KV that writes to a local file with
-// the key name and the contents are the value of the key.
+// Here is a real implementation of device-plugin.
 type Converter struct {
 }
 
-type data struct {
-	Value int64
+// ConvertReportMessage2Devices converts data report request to protocol that device understands for each device of this device model,
+func (c *Converter) ConvertReportMessage2Devices(modelId, featureId string) ([]string, error) {
+	// TODO: concrete implement
+	return []string{"Have a good try!!!"}, nil
 }
 
-func (k *Converter) Put(key string, value int64, a shared.AddHelper) error {
-	v, _ := k.Get(key)
-
-	r, err := a.Sum(v, value)
-	if err != nil {
-		return err
-	}
-
-	buf, err := json.Marshal(&data{r})
-	if err != nil {
-		return err
-	}
-
-	return ioutil.WriteFile("kv_"+key, buf, 0644)
+// ConvertIssueMessage2Device converts issue request to protocol that device understands, which has four return parameters:
+// 1. inputMessages: device issue protocols for each of command input param.
+// 2. outputMessages: device data report protocols for each of command output param.
+// 3. issueTopic: device issue MQTT topic for input params.
+// 4. issueResponseTopic: device issue response MQ topic for output params.
+func (c *Converter) ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error) {
+	// TODO: concrete implement
+	return nil, nil, "", "", nil
 }
 
-func (k *Converter) Get(key string) (int64, error) {
-	dataRaw, err := ioutil.ReadFile("kv_" + key)
-	if err != nil {
-		return 0, err
-	}
-
-	data := &data{}
-	err = json.Unmarshal(dataRaw, data)
-	if err != nil {
-		return 0, err
-	}
-
-	return data.Value, nil
-}
-
-func (k *Converter) ConvertReportMessage(deviceId, modelId, featureId, msgId string) ([]string, error) {
-	// TODO
-	return nil, nil
-}
-
-func (k *Converter) ConvertIssueMessage(deviceId, modelId, featureId, msgId string, values map[string]string) ([]string, []string, error) {
-	// TODO
-	return nil, nil, nil
-}
-
-func (k *Converter) RevConvertMessages(messages []string) (string, []string, error) {
-	// TODO
+// ConvertDeviceMessages2MQFormat receives device command issue responses and converts it to RabbitMQ normative format.
+func (c *Converter) ConvertDeviceMessages2MQFormat(messages []string) (string, []byte, error) {
+	// TODO: concrete implement
 	return "", nil, nil
 }
 
