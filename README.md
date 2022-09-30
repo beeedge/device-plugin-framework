@@ -55,4 +55,5 @@ $ protoc -I proto/ proto/converter.proto --go_out=plugins=grpc:proto --go-grpc_o
 ## Refs
 
 * [bidirectional go-plugin](https://github.com/hashicorp/go-plugin/tree/master/examples/bidirectional)
-
+* [Alibaba Paho-MQTT Go](https://help.aliyun.com/document_detail/146503.html#section-lk1-zyq-byp)
+* [IoT Device SDK](https://support.huaweicloud.com/sdkreference-iothub/iot_02_0178.html)
