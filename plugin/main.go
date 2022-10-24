@@ -26,7 +26,7 @@ func (c *Converter) ConvertIssueMessage2Device(deviceId, modelId, featureId stri
 }
 
 // ConvertDeviceMessages2MQFormat receives device command issue responses and converts it to RabbitMQ normative format.
-func (c *Converter) ConvertDeviceMessages2MQFormat(messages []string) (string, []byte, error) {
+func (c *Converter) ConvertDeviceMessages2MQFormat(messages []string, featureType string) (string, []byte, error) {
 	// TODO: concrete implement
 	return "", nil, nil
 }

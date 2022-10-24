@@ -38,9 +38,10 @@ func (m *GRPCClient) ConvertIssueMessage2Device(deviceId, modelId, featureId str
 	return resp.InputMessages, resp.OutputMessages, resp.IssueTopic, resp.IssueResponseTopic, nil
 }
 
-func (m *GRPCClient) ConvertDeviceMessages2MQFormat(messages []string) (string, []byte, error) {
+func (m *GRPCClient) ConvertDeviceMessages2MQFormat(messages []string, featureType string) (string, []byte, error) {
 	resp, err := m.client.ConvertDeviceMessages2MQFormat(context.Background(), &proto.GetMQFormatRequest{
-		Messages: messages,
+		Messages:    messages,
+		FeatureType: featureType,
 	})
 	if err != nil {
 		return "", nil, err
@@ -73,7 +74,7 @@ func (m *GRPCServer) ConvertIssueMessage2Device(ctx context.Context, req *proto.
 }
 
 func (m *GRPCServer) ConvertDeviceMessages2MQFormat(ctx context.Context, req *proto.GetMQFormatRequest) (*proto.GetMQFormatResponse, error) {
-	routingKey, rabbitMQMsgBody, err := m.Impl.ConvertDeviceMessages2MQFormat(req.Messages)
+	routingKey, rabbitMQMsgBody, err := m.Impl.ConvertDeviceMessages2MQFormat(req.Messages, req.FeatureType)
 	return &proto.GetMQFormatResponse{
 		RoutingKey:      routingKey,
 		RabbitMQMsgBody: rabbitMQMsgBody,

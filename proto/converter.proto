@@ -16,6 +16,7 @@ message GetDeviceIssueRequest {
 
 message GetMQFormatRequest {
     repeated string messages = 1;
+    string featureType = 2;
 }
 
 message GetDeviceReportResponse {

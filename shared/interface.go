@@ -32,7 +32,7 @@ type Converter interface {
 	// 4. issueResponseTopic: device issue response MQ topic for output params.
 	ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error)
 	// ConvertDeviceMessages2MQFormat receives device command issue responses and converts it to RabbitMQ normative format.
-	ConvertDeviceMessages2MQFormat(messages []string) (string, []byte, error)
+	ConvertDeviceMessages2MQFormat(messages []string, featureType string) (string, []byte, error)
 }
 
 // This is the implementation of plugin.Plugin so we can serve/consume this.

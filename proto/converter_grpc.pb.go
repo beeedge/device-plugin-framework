@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.6
-// source: kv.proto
+// source: proto/converter.proto
 
 package proto
 
@@ -171,5 +171,5 @@ var Converter_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "kv.proto",
+	Metadata: "proto/converter.proto",
 }
