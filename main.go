@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/beeedge/device-plugin-framework/shared"
-	"github.com/hashicorp/go-plugin"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+
+	"github.com/beeedge/device-plugin-framework/shared"
+	"github.com/hashicorp/go-plugin"
 )
 
 func main() {
@@ -41,7 +42,7 @@ func main() {
 	// We should have a Converter store now! This feels like a normal interface
 	// implementation but is in fact over an RPC connection.
 	converter := raw.(shared.Converter)
-	result, err := converter.ConvertReportMessage2Devices("", "")
+	result, err := converter.ConvertReportMessage2Devices("", "", "")
 	if err != nil {
 		fmt.Println("Error:", err.Error())
 		os.Exit(1)

@@ -10,7 +10,7 @@ type Converter struct {
 }
 
 // ConvertReportMessage2Devices converts data report request to protocol that device understands for each device of this device model,
-func (c *Converter) ConvertReportMessage2Devices(modelId, featureId string) ([]string, error) {
+func (c *Converter) ConvertReportMessage2Devices(deviceFeatureMaps, modelId, featureId string) ([]string, error) {
 	// TODO: concrete implement
 	return []string{"Have a good try!!!"}, nil
 }
@@ -20,13 +20,13 @@ func (c *Converter) ConvertReportMessage2Devices(modelId, featureId string) ([]s
 // 2. outputMessages: device data report protocols for each of command output param.
 // 3. issueTopic: device issue MQTT topic for input params.
 // 4. issueResponseTopic: device issue response MQ topic for output params.
-func (c *Converter) ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error) {
+func (c *Converter) ConvertIssueMessage2Device(deviceFeatureMaps, deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error) {
 	// TODO: concrete implement
 	return nil, nil, "", "", nil
 }
 
 // ConvertDeviceMessages2MQFormat receives device command issue responses and converts it to RabbitMQ normative format.
-func (c *Converter) ConvertDeviceMessages2MQFormat(messages []string, featureType string) (string, []byte, error) {
+func (c *Converter) ConvertDeviceMessages2MQFormat(messages []string, deviceFeatureMaps string) (string, []byte, error) {
 	// TODO: concrete implement
 	return "", nil, nil
 }

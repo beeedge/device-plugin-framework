@@ -3,20 +3,22 @@ package proto;
 option go_package = "grpc/proto";
 
 message GetDeviceReportRequest {
-    string modelId = 1;
-    string featureId = 2;
+    string maps = 1;
+    string modelId = 2;
+    string featureId = 3;
 }
 
 message GetDeviceIssueRequest {
-    string deviceId = 1;
-    string modelId = 2;
-    string featureId = 3;
-    map<string, string> values = 4;
+    string maps = 1;
+    string deviceId = 2;
+    string modelId = 3;
+    string featureId = 4;
+    map<string, string> values = 5;
 }
 
 message GetMQFormatRequest {
-    repeated string messages = 1;
-    string featureType = 2;
+    string maps = 1;
+    repeated string messages = 2;
 }
 
 message GetDeviceReportResponse {

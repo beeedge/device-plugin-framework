@@ -12,8 +12,9 @@ type GRPCClient struct {
 	client proto.ConverterClient
 }
 
-func (m *GRPCClient) ConvertReportMessage2Devices(modelId, featureId string) ([]string, error) {
+func (m *GRPCClient) ConvertReportMessage2Devices(deviceFeatureMaps, modelId, featureId string) ([]string, error) {
 	resp, err := m.client.ConvertReportMessage2Devices(context.Background(), &proto.GetDeviceReportRequest{
+		Maps:      deviceFeatureMaps,
 		ModelId:   modelId,
 		FeatureId: featureId,
 	})
@@ -24,8 +25,9 @@ func (m *GRPCClient) ConvertReportMessage2Devices(modelId, featureId string) ([]
 	return resp.Messages, nil
 }
 
-func (m *GRPCClient) ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error) {
+func (m *GRPCClient) ConvertIssueMessage2Device(deviceFeatureMaps, deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error) {
 	resp, err := m.client.ConvertIssueMessage2Device(context.Background(), &proto.GetDeviceIssueRequest{
+		Maps:      deviceFeatureMaps,
 		DeviceId:  deviceId,
 		ModelId:   modelId,
 		FeatureId: featureId,
@@ -38,10 +40,10 @@ func (m *GRPCClient) ConvertIssueMessage2Device(deviceId, modelId, featureId str
 	return resp.InputMessages, resp.OutputMessages, resp.IssueTopic, resp.IssueResponseTopic, nil
 }
 
-func (m *GRPCClient) ConvertDeviceMessages2MQFormat(messages []string, featureType string) (string, []byte, error) {
+func (m *GRPCClient) ConvertDeviceMessages2MQFormat(messages []string, deviceFeatureMaps string) (string, []byte, error) {
 	resp, err := m.client.ConvertDeviceMessages2MQFormat(context.Background(), &proto.GetMQFormatRequest{
-		Messages:    messages,
-		FeatureType: featureType,
+		Maps:     deviceFeatureMaps,
+		Messages: messages,
 	})
 	if err != nil {
 		return "", nil, err
@@ -59,12 +61,12 @@ type GRPCServer struct {
 }
 
 func (m *GRPCServer) ConvertReportMessage2Devices(ctx context.Context, req *proto.GetDeviceReportRequest) (*proto.GetDeviceReportResponse, error) {
-	reportMessages, err := m.Impl.ConvertReportMessage2Devices(req.ModelId, req.FeatureId)
+	reportMessages, err := m.Impl.ConvertReportMessage2Devices(req.Maps, req.ModelId, req.FeatureId)
 	return &proto.GetDeviceReportResponse{Messages: reportMessages}, err
 }
 
 func (m *GRPCServer) ConvertIssueMessage2Device(ctx context.Context, req *proto.GetDeviceIssueRequest) (*proto.GetDeviceIssueResponse, error) {
-	inputMessages, outputMessages, issueTopic, issueResponseTopic, err := m.Impl.ConvertIssueMessage2Device(req.DeviceId, req.ModelId, req.FeatureId, req.Values)
+	inputMessages, outputMessages, issueTopic, issueResponseTopic, err := m.Impl.ConvertIssueMessage2Device(req.Maps, req.DeviceId, req.ModelId, req.FeatureId, req.Values)
 	return &proto.GetDeviceIssueResponse{
 		InputMessages:      inputMessages,
 		OutputMessages:     outputMessages,
@@ -74,7 +76,7 @@ func (m *GRPCServer) ConvertIssueMessage2Device(ctx context.Context, req *proto.
 }
 
 func (m *GRPCServer) ConvertDeviceMessages2MQFormat(ctx context.Context, req *proto.GetMQFormatRequest) (*proto.GetMQFormatResponse, error) {
-	routingKey, rabbitMQMsgBody, err := m.Impl.ConvertDeviceMessages2MQFormat(req.Messages, req.FeatureType)
+	routingKey, rabbitMQMsgBody, err := m.Impl.ConvertDeviceMessages2MQFormat(req.Messages, req.Maps)
 	return &proto.GetMQFormatResponse{
 		RoutingKey:      routingKey,
 		RabbitMQMsgBody: rabbitMQMsgBody,
