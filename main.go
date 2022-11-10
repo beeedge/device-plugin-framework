@@ -44,14 +44,13 @@ func main() {
 	// We should have a Converter store now! This feels like a normal interface
 	// implementation but is in fact over an RPC connection.
 	converter := raw.(shared.Converter)
-	bs, err := json.Marshal(&da.DeviceFeatureMap{
-		DeviceIdMap:      make(map[string]*da.Device),
-		ModelIdMap:       make(map[string]*da.Model),
-		FeatureIdMap:     make(map[string]*da.Feature),
-		InputParamIdMap:  make(map[string]*da.Param),
-		OutputParamIdMap: make(map[string]*da.Param),
-	})
-	result, _, err := converter.ConvertDeviceMessages2MQFormat([]string{""}, string(bs))
+	var convertedDeviceFeatureMap da.DeviceFeatureMap
+	convertedDeviceFeatureMapBytes, err := json.Marshal(&convertedDeviceFeatureMap)
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+		os.Exit(1)
+	}
+	result, _, err := converter.ConvertDeviceMessages2MQFormat([]string{""}, string(convertedDeviceFeatureMapBytes))
 	if err != nil {
 		fmt.Println("Error:", err.Error())
 		os.Exit(1)
