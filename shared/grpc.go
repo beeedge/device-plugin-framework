@@ -14,10 +14,11 @@ type GRPCClient struct {
 
 func (m *GRPCClient) ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string, convertedDeviceFeatureMap string) ([]string, []string, string, string, error) {
 	resp, err := m.client.ConvertIssueMessage2Device(context.Background(), &proto.GetDeviceIssueRequest{
-		DeviceId:  deviceId,
-		ModelId:   modelId,
-		FeatureId: featureId,
-		Values:    values,
+		DeviceId:                  deviceId,
+		ModelId:                   modelId,
+		FeatureId:                 featureId,
+		Values:                    values,
+		ConvertedDeviceFeatureMap: convertedDeviceFeatureMap,
 	})
 	if err != nil {
 		return nil, nil, "", "", err
