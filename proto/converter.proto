@@ -15,10 +15,6 @@ message GetMQFormatRequest {
     string convertedDeviceFeatureMap = 2;
 }
 
-message GetDeviceReportResponse {
-    repeated string messages = 1;
-}
-
 message GetDeviceIssueResponse {
     repeated string inputMessages = 1;
     repeated string outputMessages = 2;

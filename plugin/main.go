@@ -33,7 +33,7 @@ func (c *Converter) ConvertDeviceMessages2MQFormat(messages []string, convertedD
 		return "", nil, err
 	}
 	// TODO: concrete implement
-	return "", nil, nil
+	return "Hello World", nil, nil
 }
 
 func main() {
