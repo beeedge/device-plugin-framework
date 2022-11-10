@@ -23,16 +23,14 @@ var PluginMap = map[string]plugin.Plugin{
 
 // Converter is the interface that we're exposing as a plugin.
 type Converter interface {
-	// ConvertReportMessage2Devices converts data report request to protocol that device understands for each device of this device model,
-	ConvertReportMessage2Devices(modelId, featureId string) ([]string, error)
 	// ConvertIssueMessage2Device converts issue request to protocol that device understands, which has four return parameters:
 	// 1. inputMessages: device issue protocols for each of command input param.
 	// 2. outputMessages: device data report protocols for each of command output param.
 	// 3. issueTopic: device issue MQTT topic for input params.
 	// 4. issueResponseTopic: device issue response MQ topic for output params.
-	ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string) ([]string, []string, string, string, error)
+	ConvertIssueMessage2Device(deviceId, modelId, featureId string, values map[string]string, convertedDeviceFeatureMap string) ([]string, []string, string, string, error)
 	// ConvertDeviceMessages2MQFormat receives device command issue responses and converts it to RabbitMQ normative format.
-	ConvertDeviceMessages2MQFormat(messages []string) (string, []byte, error)
+	ConvertDeviceMessages2MQFormat(messages []string, convertedDeviceFeatureMap string) (string, []byte, error)
 }
 
 // This is the implementation of plugin.Plugin so we can serve/consume this.

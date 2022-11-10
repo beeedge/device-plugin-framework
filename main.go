@@ -1,13 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/beeedge/device-plugin-framework/shared"
-	"github.com/hashicorp/go-plugin"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+
+	da "github.com/beeedge/beethings/pkg/device-access/rest/models"
+	"github.com/beeedge/device-plugin-framework/shared"
+	"github.com/hashicorp/go-plugin"
 )
 
 func main() {
@@ -41,7 +44,14 @@ func main() {
 	// We should have a Converter store now! This feels like a normal interface
 	// implementation but is in fact over an RPC connection.
 	converter := raw.(shared.Converter)
-	result, err := converter.ConvertReportMessage2Devices("", "")
+	bs, err := json.Marshal(&da.DeviceFeatureMap{
+		DeviceIdMap:      make(map[string]*da.Device),
+		ModelIdMap:       make(map[string]*da.Model),
+		FeatureIdMap:     make(map[string]*da.Feature),
+		InputParamIdMap:  make(map[string]*da.Param),
+		OutputParamIdMap: make(map[string]*da.Param),
+	})
+	result, _, err := converter.ConvertDeviceMessages2MQFormat([]string{""}, string(bs))
 	if err != nil {
 		fmt.Println("Error:", err.Error())
 		os.Exit(1)

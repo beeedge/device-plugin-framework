@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.6
-// source: kv.proto
+// source: proto/converter.proto
 
 package proto
 
@@ -22,7 +22,6 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConverterClient interface {
-	ConvertReportMessage2Devices(ctx context.Context, in *GetDeviceReportRequest, opts ...grpc.CallOption) (*GetDeviceReportResponse, error)
 	ConvertIssueMessage2Device(ctx context.Context, in *GetDeviceIssueRequest, opts ...grpc.CallOption) (*GetDeviceIssueResponse, error)
 	ConvertDeviceMessages2MQFormat(ctx context.Context, in *GetMQFormatRequest, opts ...grpc.CallOption) (*GetMQFormatResponse, error)
 }
@@ -33,15 +32,6 @@ type converterClient struct {
 
 func NewConverterClient(cc grpc.ClientConnInterface) ConverterClient {
 	return &converterClient{cc}
-}
-
-func (c *converterClient) ConvertReportMessage2Devices(ctx context.Context, in *GetDeviceReportRequest, opts ...grpc.CallOption) (*GetDeviceReportResponse, error) {
-	out := new(GetDeviceReportResponse)
-	err := c.cc.Invoke(ctx, "/proto.Converter/ConvertReportMessage2Devices", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *converterClient) ConvertIssueMessage2Device(ctx context.Context, in *GetDeviceIssueRequest, opts ...grpc.CallOption) (*GetDeviceIssueResponse, error) {
@@ -66,7 +56,6 @@ func (c *converterClient) ConvertDeviceMessages2MQFormat(ctx context.Context, in
 // All implementations should embed UnimplementedConverterServer
 // for forward compatibility
 type ConverterServer interface {
-	ConvertReportMessage2Devices(context.Context, *GetDeviceReportRequest) (*GetDeviceReportResponse, error)
 	ConvertIssueMessage2Device(context.Context, *GetDeviceIssueRequest) (*GetDeviceIssueResponse, error)
 	ConvertDeviceMessages2MQFormat(context.Context, *GetMQFormatRequest) (*GetMQFormatResponse, error)
 }
@@ -75,9 +64,6 @@ type ConverterServer interface {
 type UnimplementedConverterServer struct {
 }
 
-func (UnimplementedConverterServer) ConvertReportMessage2Devices(context.Context, *GetDeviceReportRequest) (*GetDeviceReportResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConvertReportMessage2Devices not implemented")
-}
 func (UnimplementedConverterServer) ConvertIssueMessage2Device(context.Context, *GetDeviceIssueRequest) (*GetDeviceIssueResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConvertIssueMessage2Device not implemented")
 }
@@ -94,24 +80,6 @@ type UnsafeConverterServer interface {
 
 func RegisterConverterServer(s grpc.ServiceRegistrar, srv ConverterServer) {
 	s.RegisterService(&Converter_ServiceDesc, srv)
-}
-
-func _Converter_ConvertReportMessage2Devices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDeviceReportRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConverterServer).ConvertReportMessage2Devices(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.Converter/ConvertReportMessage2Devices",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConverterServer).ConvertReportMessage2Devices(ctx, req.(*GetDeviceReportRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Converter_ConvertIssueMessage2Device_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -158,10 +126,6 @@ var Converter_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ConverterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ConvertReportMessage2Devices",
-			Handler:    _Converter_ConvertReportMessage2Devices_Handler,
-		},
-		{
 			MethodName: "ConvertIssueMessage2Device",
 			Handler:    _Converter_ConvertIssueMessage2Device_Handler,
 		},
@@ -171,5 +135,5 @@ var Converter_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "kv.proto",
+	Metadata: "proto/converter.proto",
 }
