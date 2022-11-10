@@ -42,7 +42,7 @@ func main() {
 	// We should have a Converter store now! This feels like a normal interface
 	// implementation but is in fact over an RPC connection.
 	converter := raw.(shared.Converter)
-	result, err := converter.ConvertReportMessage2Devices("", "", "")
+	result, _, err := converter.ConvertDeviceMessages2MQFormat([]string{}, "")
 	if err != nil {
 		fmt.Println("Error:", err.Error())
 		os.Exit(1)

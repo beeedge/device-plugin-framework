@@ -2,23 +2,17 @@ syntax = "proto3";
 package proto;
 option go_package = "grpc/proto";
 
-message GetDeviceReportRequest {
-    string maps = 1;
+message GetDeviceIssueRequest {
+    string deviceId = 1;
     string modelId = 2;
     string featureId = 3;
-}
-
-message GetDeviceIssueRequest {
-    string maps = 1;
-    string deviceId = 2;
-    string modelId = 3;
-    string featureId = 4;
-    map<string, string> values = 5;
+    map<string, string> values = 4;
+    string convertedDeviceFeatureMap = 5;
 }
 
 message GetMQFormatRequest {
-    string maps = 1;
-    repeated string messages = 2;
+    repeated string messages = 1;
+    string convertedDeviceFeatureMap = 2;
 }
 
 message GetDeviceReportResponse {
@@ -38,7 +32,6 @@ message GetMQFormatResponse {
 }
 
 service Converter {
-    rpc ConvertReportMessage2Devices(GetDeviceReportRequest) returns (GetDeviceReportResponse);
     rpc	ConvertIssueMessage2Device(GetDeviceIssueRequest) returns (GetDeviceIssueResponse);
     rpc	ConvertDeviceMessages2MQFormat(GetMQFormatRequest) returns (GetMQFormatResponse);
 }

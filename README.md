@@ -10,8 +10,6 @@ device-plugin-framework
 ```go
 // Converter is the interface that we're exposing as a plugin.
 type Converter interface {
-    // ConvertReportMessage2Devices converts data report request to protocol that device understands for each device of this device model,
-    ConvertReportMessage2Devices(modelId, featureId string) ([]string, error)
     // ConvertIssueMessage2Device converts issue request to protocol that device understands, which has four return parameters:
     // 1. inputMessages: device issue protocols for each of command input param.
     // 2. outputMessages: device data report protocols for each of command output param.
