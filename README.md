@@ -5,7 +5,7 @@ device-plugin-framework
 
 ## Framework
 
-`device-plugin-framework` bases on [go-plugin](https://github.com/hashicorp/go-plugin/tree/master/examples/bidirectional) and we only care about one interfaces with three methods as below:
+`device-plugin-framework` bases on [go-plugin](https://github.com/hashicorp/go-plugin/tree/master/examples/bidirectional) and we only care about one interface with two methods as below:
 
 ```go
 // Converter is the interface that we're exposing as a plugin.
